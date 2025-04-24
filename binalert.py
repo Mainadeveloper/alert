@@ -2,16 +2,6 @@
 # coding: utf-8
 
 # In[39]:
-
-
-import smtplib
-import joblib
-import requests
-import time
-import pandas as pd
-from email.message import EmailMessage
-import random
-
 # Load model and features
 import smtplib
 import joblib
@@ -86,8 +76,8 @@ def run_alert():
 
     try:
         bin_level_float = float(bin_level)
-        if bin_level_float in [10.0, 0.0]:
-            advice = generate_recommendation(real_waste_weight)
+        print(f"Bin level trigger check: {bin_level_float} cm")  # <-- Add this line
+        if bin_level_float <= 10.0:
 
             msg = EmailMessage()
             msg['Subject'] = "Smart Waste Monitoring Alert"
