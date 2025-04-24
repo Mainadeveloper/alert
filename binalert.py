@@ -74,9 +74,12 @@ def run_alert():
                 "Use smart food ordering systems."
             ])
 
+    # Check bin level and send alert
     try:
-                if bin_level_float <= 10.0:
-            # Generate advice based on waste weight
+        bin_level_float = float(bin_level)
+        print(f"Bin level trigger check: {bin_level_float} cm")
+
+        if bin_level_float <= 10.0:
             advice = generate_recommendation(real_waste_weight)
 
             msg = EmailMessage()
@@ -98,6 +101,16 @@ Time: {time.strftime('%Y-%m-%d %H:%M:%S')}
 
 Smart Waste Monitoring System
 """)
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                server.login(sender_email, sender_password)
+                server.send_message(msg)
+
+            return "Email alert sent successfully!"
+        else:
+            return f"No alert sent. Bin level is {bin_level} cm."
+    except Exception as e:
+        return f"Error sending email or processing data: {e}"
+
 
 
 # In[ ]:
